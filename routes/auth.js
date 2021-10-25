@@ -59,4 +59,11 @@ router.post('/signin',(req,res)=>{
     })
 })
 
+router.post('/googlelogin',(req,res)=>{
+    console.log("reached")
+    const token = req.body;
+    console.log(token)
+    return res.send("kkk")
+})
+
 module.exports = router
