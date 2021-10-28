@@ -12,6 +12,23 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    coins:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    referral:{
+        type:String,
+        required:true
+    },
+    referralUsed:{
+        type:Boolean,
+        default:false
+    },
+    picture:{
+        type:String,
+        default:""
     }
 })
 
