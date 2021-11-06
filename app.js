@@ -27,6 +27,7 @@ app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 app.use(require('./routes/home'))
 app.use(require('./routes/referral'))
+app.use(require('./routes/API'))
 
 
 app.listen(PORT,()=>{

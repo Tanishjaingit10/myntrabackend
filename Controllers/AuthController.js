@@ -31,7 +31,7 @@ const signup = (req,res)=>{
             user.save()
             .then(savedUser=>{
                 const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
-                return res.json({token,user:{name:savedUser.name,email:savedUser.email}})
+                return res.json({token,user})
             })
             .catch(err=>console.log(err))
         })
@@ -53,7 +53,7 @@ const signin = (req,res)=>{
         .then(doMatch=>{
             if(doMatch){
                 const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
-                return res.json({token,user:{name:savedUser.name,email:savedUser.email}})
+                return res.json({token,user:savedUser})
             }
             else{
                 return res.status(422).json({error:"Wrong email or password"})
@@ -64,34 +64,6 @@ const signin = (req,res)=>{
         })
     })
     .catch(err=>console.log(err))
-}
-
-const googlelogin = (req,res)=>{
-    const {token} = req.body;
-    client.verifyIdToken({idToken:token, audience:CLIENT_ID})
-    .then(response=>{
-        const {email_verified, name, email} = response.payload
-        pictureURL = response.payload?.picture
-        if(pictureURL){
-            
-        }
-        if(email_verified){
-            User.findOne({email}).exec((err,user)=>{
-                if(err){
-                    return res.status(400).json({
-                        error:"Something went wrong.."
-                    })
-                } else {
-                    if(user){
-                        const token = jwt.sign({_id:user.id},JWT_SECRET)
-                        return res.json({token,user:{name:user.name,email:user.email}})
-                    } else {
-                        res.status(422).json({error:"User does not exist."})
-                    }
-                }
-            })
-        }
-    })
 }
 
 const googlesignup = (req,res)=>{
@@ -120,7 +92,7 @@ const googlesignup = (req,res)=>{
                                 }
                                 else{
                                     const token = jwt.sign({_id:user.id},JWT_SECRET)
-                                    return res.json({token,user:{name:user.name,email:user.email}})
+                                    return res.json({token,user})
                                 }
                             })
                         })
@@ -129,6 +101,30 @@ const googlesignup = (req,res)=>{
             })
         }
         console.log(res.payload)
+    })
+}
+
+const googlelogin = (req,res)=>{
+    const {token} = req.body;
+    client.verifyIdToken({idToken:token, audience:CLIENT_ID})
+    .then(response=>{
+        const {email_verified, email} = response.payload
+        if(email_verified){
+            User.findOne({email}).exec((err,user)=>{
+                if(err){
+                    return res.status(400).json({
+                        error:"Something went wrong.."
+                    })
+                } else {
+                    if(user){
+                        const token = jwt.sign({_id:user.id},JWT_SECRET)
+                        return res.json({token,user})
+                    } else {
+                        res.status(422).json({error:"User does not exist."})
+                    }
+                }
+            })
+        }
     })
 }
 
