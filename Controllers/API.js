@@ -13,6 +13,13 @@ const getUserData = (req,res) => {
     return res.json(req.user)
 }
 
+const addFeedbackCoins = (req,res) => {
+    let user = req.user
+    user.coins += 10
+    user.save()
+    return res.json({"message":"Thank you for your feedback. 10 coins added to your account!"})
+}
+
 module.exports = {
-    StarOfTheWeek,getUserData
+    StarOfTheWeek,getUserData,addFeedbackCoins
 }

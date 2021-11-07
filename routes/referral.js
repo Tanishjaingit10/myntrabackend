@@ -13,12 +13,12 @@ router.post('/referral',requireLogin,(req,res)=>{
     let user1=req.user
     User.findOne({referral})
     .then(user2=>{
-        user1.coins+=200
-        user2.coins+=200
+        user1.coins+=100
+        user2.coins+=100
         user1.referralUsed = true
         user1.save()
         user2.save()
-        return res.json({message:`You and your friend ${user2.name} got 200 coins each!`})
+        return res.json({message:`You and your friend ${user2.name} got 100 coins each!`})
     })
     .catch(err=> {return res.status(422).json({error:"Something went wrong."})})
 })

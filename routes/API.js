@@ -5,5 +5,6 @@ const requireLogin = require('../middleware/requireLogin')
 
 router.get('/stars',API.StarOfTheWeek)
 router.get('/getUser',requireLogin,API.getUserData)
+router.get('/getFeedbackCoins',requireLogin,API.addFeedbackCoins)
 
 module.exports = router
